@@ -16,6 +16,7 @@ from ..utils.fs import ensure_dir
 @dataclass
 class ExtractResult:
     files: Dict[str, Path]
+    row_counts: Dict[str, int | None]
 
 
 def _extension_for(chart: ChartConfig, default_format: str) -> str:
@@ -45,6 +46,7 @@ def run_extract(config: PipelineConfig, context: RunContext, logger) -> ExtractR
     logger.info("Signed in to Guanbi")
 
     files: Dict[str, Path] = {}
+    row_counts: Dict[str, int | None] = {}
 
     for chart in config.bi.charts:
         filters = apply_filter_rules(chart.filters, chart.filter_rules, context.run_date)
@@ -65,6 +67,7 @@ def run_extract(config: PipelineConfig, context: RunContext, logger) -> ExtractR
         manifest.add_export(record)
 
         files[chart.chart_id] = file_path
+        row_counts[chart.chart_id] = row_count
         logger.info("Saved export for %s to %s", chart.chart_id, file_path)
 
-    return ExtractResult(files=files)
+    return ExtractResult(files=files, row_counts=row_counts)

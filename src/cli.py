@@ -9,6 +9,7 @@ from .extract import run_extract
 from .storage import profile_raw_files, run_load
 from .transform import run_transform, run_compare
 from .publish import run_publish
+from .pipeline import run_pipeline
 from .utils.dates import parse_date, yesterday
 
 
@@ -79,7 +80,30 @@ def main() -> None:
         logger.info("Publish completed: %s", context.run_id)
         return
 
-    raise SystemExit("Command not implemented yet. Run in later phases after full refactor.")
+    if args.command == "run":
+        run_pipeline(config, context, logger)
+        return
+
+    if args.command == "backfill":
+        start_date = parse_date(args.start)
+        end_date = parse_date(args.end)
+        if start_date > end_date:
+            raise SystemExit("backfill start date must be <= end date")
+        failures = []
+        current = start_date
+        while current <= end_date:
+            bf_context = RunContext.create(current, Path(config.project.data_dir), Path(config.project.log_dir))
+            bf_logger = setup_logging(bf_context.log_dir, bf_context.run_id)
+            try:
+                run_pipeline(config, bf_context, bf_logger)
+            except Exception as exc:
+                failures.append((current.strftime("%Y-%m-%d"), str(exc)))
+            current = current.fromordinal(current.toordinal() + 1)
+        if failures:
+            raise SystemExit(f"Backfill completed with failures: {failures}")
+        return
+
+    raise SystemExit(f"Unknown command: {args.command}")
 
 
 if __name__ == "__main__":

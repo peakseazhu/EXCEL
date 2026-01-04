@@ -29,6 +29,13 @@ def _baseline_path(baseline_dir: Path, table: str) -> Path:
     return baseline_dir / f"{table}.csv"
 
 
+def _fetch_records(con: duckdb.DuckDBPyConnection, query: str, params: List) -> List[dict]:
+    cursor = con.execute(query, params)
+    cols = [desc[0] for desc in cursor.description]
+    rows = cursor.fetchall()
+    return [dict(zip(cols, row)) for row in rows]
+
+
 def _select_with_rounding(con: duckdb.DuckDBPyConnection, table: str, rounding: int) -> str:
     columns = con.execute(f"DESCRIBE {table}").fetchall()
     selects: List[str] = []
@@ -86,14 +93,16 @@ def run_compare(config: PipelineConfig, context: RunContext, logger) -> CompareR
             entry["missing_rows"] = missing
             entry["extra_rows"] = extra
 
-            sample_missing = con.execute(
+            sample_missing = _fetch_records(
+                con,
                 "SELECT * FROM base EXCEPT SELECT * FROM curr LIMIT ?",
                 [config.compare.max_samples],
-            ).fetchdf().to_dict(orient="records")
-            sample_extra = con.execute(
+            )
+            sample_extra = _fetch_records(
+                con,
                 "SELECT * FROM curr EXCEPT SELECT * FROM base LIMIT ?",
                 [config.compare.max_samples],
-            ).fetchdf().to_dict(orient="records")
+            )
             entry["sample_missing"] = sample_missing
             entry["sample_extra"] = sample_extra
 

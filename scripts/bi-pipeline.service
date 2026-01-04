@@ -1,0 +1,10 @@
+[Unit]
+Description=BI pipeline run
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+WorkingDirectory=/opt/bi-pipeline
+EnvironmentFile=/opt/bi-pipeline/.env
+ExecStart=/opt/bi-pipeline/scripts/run.sh

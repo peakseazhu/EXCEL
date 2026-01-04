@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import time
 from dataclasses import dataclass
+from datetime import date, datetime
 from typing import Dict, List, Optional
 
 import requests
@@ -23,6 +24,18 @@ def get_excel_range(start_row: int, start_col: int, rows: int, cols: int) -> str
     start_cell = f"{col_num_to_letter(start_col)}{start_row}"
     end_cell = f"{col_num_to_letter(end_col)}{end_row}"
     return f"{start_cell}:{end_cell}"
+
+
+def serialize_value(value):
+    if isinstance(value, datetime):
+        return value.isoformat(sep=" ", timespec="seconds")
+    if isinstance(value, date):
+        return value.strftime("%Y-%m-%d")
+    return value
+
+
+def serialize_values(values: List[List]) -> List[List]:
+    return [[serialize_value(cell) for cell in row] for row in values]
 
 
 @dataclass
@@ -78,7 +91,7 @@ class FeishuClient:
 
     def write_values(self, spreadsheet_token: str, range_str: str, values: List[List]) -> Dict:
         url = f"https://open.feishu.cn/open-apis/sheets/v2/spreadsheets/{spreadsheet_token}/values"
-        payload = {"valueRange": {"range": range_str, "values": values}}
+        payload = {"valueRange": {"range": range_str, "values": serialize_values(values)}}
         response = self.session.put(url, headers=self._auth_headers(), json=payload, timeout=self.timeout_seconds)
         response.raise_for_status()
         data = response.json()
