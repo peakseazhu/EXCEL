@@ -14,6 +14,7 @@ class ProjectConfig(BaseModel):
     request_max_retries: int = 5
     task_poll_interval_seconds: int = 5
     task_max_wait_seconds: int = 1800
+    profile_sample_rows: int = 100000
 
 
 class FilterRules(BaseModel):
@@ -28,6 +29,7 @@ class ChartConfig(BaseModel):
     chart_id: str
     name: str
     export_format: Optional[Literal["csv", "xlsx"]] = None
+    export_mode: Literal["simple", "complex"] = "simple"
     filters: List[dict] = Field(default_factory=list)
     filter_rules: FilterRules = Field(default_factory=FilterRules)
     schema_path: Optional[str] = None
