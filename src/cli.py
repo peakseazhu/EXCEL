@@ -6,7 +6,7 @@ from pathlib import Path
 from .config import load_config
 from .core import RunContext, setup_logging
 from .extract import run_extract
-from .storage import profile_raw_files
+from .storage import profile_raw_files, run_load
 from .utils.dates import parse_date, yesterday
 
 
@@ -54,6 +54,11 @@ def main() -> None:
     if args.command == "profile":
         report_path = profile_raw_files(context, config.bi.charts, config.project.profile_sample_rows)
         logger.info("Profile report written: %s", report_path)
+        return
+
+    if args.command == "load":
+        run_load(config, context, logger)
+        logger.info("Load completed: %s", context.run_id)
         return
 
     raise SystemExit("Command not implemented yet. Run in later phases after full refactor.")
