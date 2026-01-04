@@ -7,6 +7,7 @@ from .config import load_config
 from .core import RunContext, setup_logging
 from .extract import run_extract
 from .storage import profile_raw_files, run_load
+from .transform import run_transform, run_compare
 from .utils.dates import parse_date, yesterday
 
 
@@ -59,6 +60,17 @@ def main() -> None:
     if args.command == "load":
         run_load(config, context, logger)
         logger.info("Load completed: %s", context.run_id)
+        return
+
+    if args.command == "transform":
+        sql_dir = Path("sql/mart")
+        run_transform(context, sql_dir, logger)
+        logger.info("Transform completed: %s", context.run_id)
+        return
+
+    if args.command == "compare":
+        result = run_compare(config, context, logger)
+        logger.info("Compare report written: %s", result.report_path)
         return
 
     raise SystemExit("Command not implemented yet. Run in later phases after full refactor.")

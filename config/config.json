@@ -265,5 +265,10 @@
       "receive_id_type": "user_id",
       "receive_id": "632720999"
     }
+  },
+  "compare": {
+    "baseline_dir": "baseline",
+    "rounding": 2,
+    "max_samples": 20
   }
 }

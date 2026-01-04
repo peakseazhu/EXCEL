@@ -17,6 +17,12 @@ class ProjectConfig(BaseModel):
     profile_sample_rows: int = 100000
 
 
+class CompareConfig(BaseModel):
+    baseline_dir: str = "baseline"
+    rounding: int = 2
+    max_samples: int = 20
+
+
 class FilterRules(BaseModel):
     update_date: bool = True
     days_ago_start: int = 1
@@ -105,6 +111,7 @@ class PipelineConfig(BaseModel):
     bi: BIConfig
     targets: TargetsConfig
     feishu: FeishuConfig
+    compare: CompareConfig = Field(default_factory=CompareConfig)
 
     @model_validator(mode="after")
     def validate_exports(self) -> "PipelineConfig":
