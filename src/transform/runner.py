@@ -26,6 +26,7 @@ def run_transform(context: RunContext, sql_dir: Path, logger) -> TransformResult
 
     table_rows: Dict[str, int] = {}
     with duckdb.connect(str(context.warehouse_path)) as con:
+        con.execute("CREATE SCHEMA IF NOT EXISTS mart")
         for sql_file in sql_files:
             sql_text = sql_file.read_text(encoding="utf-8")
             rendered = render_sql(sql_text, run_date)
