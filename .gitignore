@@ -1,0 +1,39 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.so
+*.egg-info/
+.pytest_cache/
+
+# Env
+.env
+.venv/
+
+# IDE
+.vscode/
+*.lnk
+
+# Logs and runtime
+logs/
+logger/
+*.log
+
+# Data outputs
+/data/
+
+# Excel/Office files (do not commit large binaries)
+*.xlsx
+*.xlsb
+*.xlsm
+*.xls
+~$*.xlsx
+
+# Build
+build/
+dist/
+
+# OS
+.DS_Store
+Thumbs.db

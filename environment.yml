@@ -1,0 +1,12 @@
+name: bi-pipeline
+channels:
+  - defaults
+dependencies:
+  - python=3.12
+  - pip
+  - pip:
+      - requests
+      - python-dotenv
+      - pydantic
+      - PyYAML
+      - duckdb

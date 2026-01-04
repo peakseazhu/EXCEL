@@ -1,0 +1,262 @@
+{
+  "project": {
+    "name": "bi-pipeline",
+    "timezone": "Asia/Shanghai",
+    "data_dir": "data",
+    "log_dir": "logs",
+    "export_format": "csv",
+    "request_timeout_seconds": 30,
+    "request_max_retries": 5,
+    "task_poll_interval_seconds": 5,
+    "task_max_wait_seconds": 1800
+  },
+  "bi": {
+    "base_url": "https://bi.biaoguoworks.com",
+    "domain": "guanbi",
+    "username_env": "BI_USERNAME",
+    "password_env": "BI_PASSWORD",
+    "charts": [
+      {
+        "chart_id": "t5ff658e34e0740c38e192e0",
+        "name": "BD薪酬－提成",
+        "export_format": "csv",
+        "filters": [
+          {
+            "fdId": "e87073478dc26465698193aa",
+            "name": "月份",
+            "fdType": "STRING",
+            "metaType": "DIM",
+            "cdId": "t5ff658e34e0740c38e192e0",
+            "dsId": "kf77f0ea30a424f28b0d959d",
+            "filterType": "IN",
+            "sourceCdId": "uf65c324689b449c18add7bc",
+            "filterValue": [
+              "2025-10"
+            ]
+          },
+          {
+            "name": "业态",
+            "fdId": "ndcf7d444e38e4686a0a2085",
+            "dsId": "kf77f0ea30a424f28b0d959d",
+            "cdId": "t5ff658e34e0740c38e192e0",
+            "fdType": "STRING",
+            "filterType": "IN",
+            "sourceCdId": "wc1af0a6f85b5456ebd9766a",
+            "filterValue": [
+              "水果"
+            ]
+          }
+        ],
+        "filter_rules": {
+          "update_date": true,
+          "days_ago_start": 1,
+          "days_ago_end": 1,
+          "update_month": true,
+          "month": null
+        }
+      },
+      {
+        "chart_id": "g3ce42f595648430cbd599a7",
+        "name": "绩效看板",
+        "export_format": "csv",
+        "filters": [
+          {
+            "name": "日期",
+            "fdId": "g76defeac11ae4fa083cb6f2",
+            "dsId": "u732a1a48e8334554a9fd772",
+            "cdId": "g3ce42f595648430cbd599a7",
+            "fdType": "DATE",
+            "filterType": "BT",
+            "sourceCdId": "p147f06c6c1a84f3e81118a5",
+            "filterValue": [
+              "2025-10-27",
+              "2025-10-27"
+            ],
+            "macroName": "昨天"
+          }
+        ],
+        "filter_rules": {
+          "update_date": true,
+          "days_ago_start": 1,
+          "days_ago_end": 1,
+          "update_month": true,
+          "month": null
+        }
+      },
+      {
+        "chart_id": "r29b8748abc9a44e88365b63",
+        "name": "全国执行",
+        "export_format": "csv",
+        "filters": [
+          {
+            "name": "日期",
+            "fdId": "s4cabc9ba9e9e4b90969f10d",
+            "dsId": "pee26cc6b4a724e938aefb4d",
+            "cdId": "r29b8748abc9a44e88365b63",
+            "fdType": "STRING",
+            "filterType": "BT",
+            "sourceCdId": "ce294f31684794f699d7a0d6",
+            "filterValue": [
+              "2025-10-27",
+              "2025-10-27"
+            ],
+            "macroName": "昨天"
+          }
+        ],
+        "filter_rules": {
+          "update_date": true,
+          "days_ago_start": 1,
+          "days_ago_end": 1,
+          "update_month": true,
+          "month": null
+        }
+      },
+      {
+        "chart_id": "dd60461b434f9465fb3c6cff",
+        "name": "片区执行",
+        "export_format": "csv",
+        "filters": [
+          {
+            "name": "日期",
+            "fdId": "f9aee61fbc329416e8ec7e69",
+            "dsId": "k47cdf79ab00d4dac934600a",
+            "cdId": "dd60461b434f9465fb3c6cff",
+            "fdType": "STRING",
+            "filterType": "BT",
+            "sourceCdId": "ce294f31684794f699d7a0d6",
+            "filterValue": [
+              "2025-10-27",
+              "2025-10-27"
+            ],
+            "macroName": "昨天"
+          }
+        ],
+        "filter_rules": {
+          "update_date": true,
+          "days_ago_start": 1,
+          "days_ago_end": 1,
+          "update_month": true,
+          "month": null
+        }
+      },
+      {
+        "chart_id": "k41395f63a5134401908ebb5",
+        "name": "bd执行",
+        "export_format": "csv",
+        "filters": [
+          {
+            "name": "日期",
+            "fdId": "u87ff824b604a4e4b85f1fd1",
+            "dsId": "ddac550b4ecd44335b644c06",
+            "cdId": "k41395f63a5134401908ebb5",
+            "fdType": "STRING",
+            "filterType": "BT",
+            "sourceCdId": "ce294f31684794f699d7a0d6",
+            "filterValue": [
+              "2025-10-27",
+              "2025-10-27"
+            ],
+            "macroName": "昨天"
+          }
+        ],
+        "filter_rules": {
+          "update_date": true,
+          "days_ago_start": 1,
+          "days_ago_end": 1,
+          "update_month": true,
+          "month": null
+        }
+      },
+      {
+        "chart_id": "g11f057bdcf7b464f80371c8",
+        "name": "门店详情_日维度",
+        "export_format": "csv",
+        "filters": [
+          {
+            "name": "日期",
+            "fdId": "k409daa8e93bf417c9b16acf",
+            "dsId": "n0f74e1a9189a4f2b831a4f7",
+            "cdId": "g11f057bdcf7b464f80371c8",
+            "fdType": "STRING",
+            "filterType": "BT",
+            "sourceCdId": "ce294f31684794f699d7a0d6",
+            "filterValue": [
+              "2025-10-27",
+              "2025-10-27"
+            ],
+            "macroName": "昨天"
+          }
+        ],
+        "filter_rules": {
+          "update_date": true,
+          "days_ago_start": 1,
+          "days_ago_end": 1,
+          "update_month": true,
+          "month": null
+        }
+      }
+    ]
+  },
+  "targets": {
+    "tables": [
+      {
+        "name": "targets_a",
+        "source": "file",
+        "path": "config/targets/targets_a.csv",
+        "schema_path": "schemas/targets_a.json"
+      },
+      {
+        "name": "targets_b",
+        "source": "file",
+        "path": "config/targets/targets_b.csv",
+        "schema_path": "schemas/targets_b.json"
+      }
+    ]
+  },
+  "feishu": {
+    "app_id_env": "FEISHU_APP_ID",
+    "app_secret_env": "FEISHU_APP_SECRET",
+    "spreadsheet_token": "Z3zksQfnehAV0ut1Jq8c2lKin6e",
+    "outputs": [
+      {
+        "sheet_name": "省区业务沙盘",
+        "table": "mart.province_sandbox",
+        "start_cell": "A1",
+        "batch_size": 5000,
+        "clear_extra_rows": true
+      },
+      {
+        "sheet_name": "片区业务沙盘",
+        "table": "mart.region_sandbox",
+        "start_cell": "A1",
+        "batch_size": 5000,
+        "clear_extra_rows": true
+      },
+      {
+        "sheet_name": "省区",
+        "table": "mart.province",
+        "start_cell": "A1",
+        "batch_size": 5000,
+        "clear_extra_rows": true
+      },
+      {
+        "sheet_name": "片区",
+        "table": "mart.region",
+        "start_cell": "A1",
+        "batch_size": 5000,
+        "clear_extra_rows": true
+      },
+      {
+        "sheet_name": "bd",
+        "table": "mart.bd",
+        "start_cell": "A1",
+        "batch_size": 5000,
+        "clear_extra_rows": true
+      }
+    ],
+    "alert": {
+      "receive_id_type": "user_id",
+      "receive_id": "632720999"
+    }
+  }
+}

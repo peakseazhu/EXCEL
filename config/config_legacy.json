@@ -1,0 +1,247 @@
+{
+    "CHARTS_INFO": {
+        "t5ff658e34e0740c38e192e0": {
+            "filters": [
+                {
+                    "fdId": "e87073478dc26465698193aa",
+                    "name": "月份",
+                    "fdType": "STRING",
+                    "metaType": "DIM",
+                    "cdId": "t5ff658e34e0740c38e192e0",
+                    "dsId": "kf77f0ea30a424f28b0d959d",
+                    "filterType": "IN",
+                    "sourceCdId": "uf65c324689b449c18add7bc",
+                    "filterValue": [
+                        "2025-10"
+                    ]
+                },
+                {
+                    "name": "业态",
+                    "fdId": "ndcf7d444e38e4686a0a2085",
+                    "dsId": "kf77f0ea30a424f28b0d959d",
+                    "cdId": "t5ff658e34e0740c38e192e0",
+                    "fdType": "STRING",
+                    "filterType": "IN",
+                    "sourceCdId": "wc1af0a6f85b5456ebd9766a",
+                    "filterValue": [
+                        "水果"
+                    ]
+                }
+            ],
+            "treeFilters": [],
+            "dynamicParams": [],
+            "dynamicFieldFilters": [],
+            "combinationFilters": [],
+            "layerTreeFilters": [],
+            "saveFilters": false
+        },
+        "g3ce42f595648430cbd599a7": {
+            "filters": [
+                {
+                    "name": "日期",
+                    "fdId": "g76defeac11ae4fa083cb6f2",
+                    "dsId": "u732a1a48e8334554a9fd772",
+                    "cdId": "g3ce42f595648430cbd599a7",
+                    "fdType": "DATE",
+                    "filterType": "BT",
+                    "sourceCdId": "p147f06c6c1a84f3e81118a5",
+                    "filterValue": [
+                        "2025-10-27",
+                        "2025-10-27"
+                    ],
+                    "macroName": "昨天"
+                }
+            ],
+            "treeFilters": [],
+            "dynamicParams": [],
+            "dynamicFieldFilters": [],
+            "combinationFilters": [],
+            "layerTreeFilters": [],
+            "saveFilters": false
+        },
+        "r29b8748abc9a44e88365b63": {
+            "filters": [
+                {
+                    "name": "日期",
+                    "fdId": "s4cabc9ba9e9e4b90969f10d",
+                    "dsId": "pee26cc6b4a724e938aefb4d",
+                    "cdId": "r29b8748abc9a44e88365b63",
+                    "fdType": "STRING",
+                    "filterType": "BT",
+                    "sourceCdId": "ce294f31684794f699d7a0d6",
+                    "filterValue": [
+                        "2025-10-27",
+                        "2025-10-27"
+                    ],
+                    "macroName": "昨天"
+                }
+            ],
+            "treeFilters": [],
+            "dynamicParams": [],
+            "dynamicFieldFilters": [],
+            "combinationFilters": [],
+            "layerTreeFilters": [],
+            "saveFilters": false
+        },
+        "dd60461b434f9465fb3c6cff": {
+            "filters": [
+                {
+                    "name": "日期",
+                    "fdId": "f9aee61fbc329416e8ec7e69",
+                    "dsId": "k47cdf79ab00d4dac934600a",
+                    "cdId": "dd60461b434f9465fb3c6cff",
+                    "fdType": "STRING",
+                    "filterType": "BT",
+                    "sourceCdId": "ce294f31684794f699d7a0d6",
+                    "filterValue": [
+                        "2025-10-27",
+                        "2025-10-27"
+                    ],
+                    "macroName": "昨天"
+                }
+            ],
+            "treeFilters": [],
+            "dynamicParams": [],
+            "dynamicFieldFilters": [],
+            "combinationFilters": [],
+            "layerTreeFilters": [],
+            "saveFilters": false
+        },
+        "k41395f63a5134401908ebb5": {
+            "filters": [
+                {
+                    "name": "日期",
+                    "fdId": "u87ff824b604a4e4b85f1fd1",
+                    "dsId": "ddac550b4ecd44335b644c06",
+                    "cdId": "k41395f63a5134401908ebb5",
+                    "fdType": "STRING",
+                    "filterType": "BT",
+                    "sourceCdId": "ce294f31684794f699d7a0d6",
+                    "filterValue": [
+                        "2025-10-27",
+                        "2025-10-27"
+                    ],
+                    "macroName": "昨天"
+                }
+            ],
+            "treeFilters": [],
+            "dynamicParams": [],
+            "dynamicFieldFilters": [],
+            "combinationFilters": [],
+            "layerTreeFilters": [],
+            "saveFilters": false
+        },
+        "g11f057bdcf7b464f80371c8": {
+            "filters": [
+                {
+                    "name": "日期",
+                    "fdId": "k409daa8e93bf417c9b16acf",
+                    "dsId": "n0f74e1a9189a4f2b831a4f7",
+                    "cdId": "g11f057bdcf7b464f80371c8",
+                    "fdType": "STRING",
+                    "filterType": "BT",
+                    "sourceCdId": "ce294f31684794f699d7a0d6",
+                    "filterValue": [
+                        "2025-10-27",
+                        "2025-10-27"
+                    ],
+                    "macroName": "昨天"
+                }
+            ],
+            "treeFilters": [],
+            "dynamicParams": [],
+            "dynamicFieldFilters": [],
+            "combinationFilters": [],
+            "layerTreeFilters": [],
+            "saveFilters": false
+        }
+    },
+    "CHARTS_NAME": {
+        "t5ff658e34e0740c38e192e0": "BD薪酬－提成",
+        "g3ce42f595648430cbd599a7": "绩效看板",
+        "r29b8748abc9a44e88365b63": "全国执行",
+        "dd60461b434f9465fb3c6cff": "片区执行",
+        "k41395f63a5134401908ebb5": "bd执行",
+        "g11f057bdcf7b464f80371c8": "门店详情_日维度"
+    },
+    "COPY_PASTE_INFO": [
+        {
+            "target_file": "执行管理字段更新版.xlsx",
+            "mappings": [
+                {
+                    "source_file": null,
+                    "source_sheet": null,
+                    "target_sheet": "BD薪酬－提成",
+                    "paste_satrt_col":"1"
+                },
+                {
+                    "source_file": null,
+                    "source_sheet": null,
+                    "target_sheet": "绩效看板",
+                    "paste_satrt_col":"1"
+                },
+                {
+                    "source_file": null,
+                    "source_sheet": null,
+                    "target_sheet": "全国执行",
+                    "paste_satrt_col":"1"
+                },
+                {
+                    "source_file": null,
+                    "source_sheet": null,
+                    "target_sheet": "片区执行",
+                    "paste_satrt_col":"1"
+                },
+                {
+                    "source_file": null,
+                    "source_sheet": null,
+                    "target_sheet": "bd执行",
+                    "paste_satrt_col":"1"
+                },
+                {
+                    "source_file": null,
+                    "source_sheet": null,
+                    "target_sheet": "门店详情_日维度",
+                    "paste_satrt_col":"2"
+                }
+            ]
+        }
+    ],
+    "PUT_ONLINE_INFO":{
+        "spreadsheet_token":"Z3zksQfnehAV0ut1Jq8c2lKin6e",
+        "online_wb_name":"预加工执行管理日复盘",
+        "INFO":[
+            {
+            "result_sheet_name":"省区业务沙盘",
+            "start_col":1,
+            "end_col":10,
+            "online_sheet_name":"省区业务沙盘"
+        },
+        {
+            "result_sheet_name":"片区业务沙盘",
+            "start_col":1,
+            "end_col":12,
+            "online_sheet_name":"片区业务沙盘"
+        },
+        {
+            "result_sheet_name":"省区",
+            "start_col":1,
+            "end_col":9,
+            "online_sheet_name":"省区"
+        },
+        {
+            "result_sheet_name":"片区",
+            "start_col":1,
+            "end_col":10,
+            "online_sheet_name":"片区"
+        },
+        {
+            "result_sheet_name":"bd",
+            "start_col":1,
+            "end_col":11,
+            "online_sheet_name":"bd"
+        }
+        ]
+        
+    }
+}
