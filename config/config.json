@@ -230,35 +230,40 @@
         "table": "mart.province_sandbox",
         "start_cell": "A1",
         "batch_size": 5000,
-        "clear_extra_rows": true
+        "clear_extra_rows": true,
+        "include_header": true
       },
       {
         "sheet_name": "片区业务沙盘",
         "table": "mart.region_sandbox",
         "start_cell": "A1",
         "batch_size": 5000,
-        "clear_extra_rows": true
+        "clear_extra_rows": true,
+        "include_header": true
       },
       {
         "sheet_name": "省区",
         "table": "mart.province",
         "start_cell": "A1",
         "batch_size": 5000,
-        "clear_extra_rows": true
+        "clear_extra_rows": true,
+        "include_header": true
       },
       {
         "sheet_name": "片区",
         "table": "mart.region",
         "start_cell": "A1",
         "batch_size": 5000,
-        "clear_extra_rows": true
+        "clear_extra_rows": true,
+        "include_header": true
       },
       {
         "sheet_name": "bd",
         "table": "mart.bd",
         "start_cell": "A1",
         "batch_size": 5000,
-        "clear_extra_rows": true
+        "clear_extra_rows": true,
+        "include_header": true
       }
     ],
     "alert": {

@@ -83,6 +83,7 @@ class OutputSheetConfig(BaseModel):
     start_cell: str = "A1"
     batch_size: int = 5000
     clear_extra_rows: bool = True
+    include_header: bool = True
 
 
 class AlertConfig(BaseModel):

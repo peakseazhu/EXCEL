@@ -63,6 +63,18 @@ class Warehouse:
                 )
                 """
             )
+            con.execute(
+                """
+                CREATE TABLE IF NOT EXISTS ops.publish_history (
+                    run_id VARCHAR,
+                    run_date DATE,
+                    sheet_name VARCHAR,
+                    row_count BIGINT,
+                    col_count BIGINT,
+                    published_at TIMESTAMP
+                )
+                """
+            )
 
     def record_run_start(self, run_id: str, run_date: str) -> None:
         with self.connect() as con:
@@ -159,3 +171,26 @@ class Warehouse:
             )
 
         return row_count
+
+    def get_last_publish(self, sheet_name: str) -> Optional[Tuple[int, int]]:
+        with self.connect() as con:
+            row = con.execute(
+                """
+                SELECT row_count, col_count
+                FROM ops.publish_history
+                WHERE sheet_name = ?
+                ORDER BY published_at DESC
+                LIMIT 1
+                """,
+                [sheet_name],
+            ).fetchone()
+        if not row:
+            return None
+        return int(row[0]), int(row[1])
+
+    def record_publish(self, run_id: str, run_date: str, sheet_name: str, row_count: int, col_count: int) -> None:
+        with self.connect() as con:
+            con.execute(
+                "INSERT INTO ops.publish_history VALUES (?, ?, ?, ?, ?, ?)",
+                [run_id, run_date, sheet_name, row_count, col_count, datetime.utcnow()],
+            )
