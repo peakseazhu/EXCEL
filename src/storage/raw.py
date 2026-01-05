@@ -26,11 +26,22 @@ def count_csv_rows(path: Path) -> int:
     return max(line_count - 1, 0)
 
 
-def build_export_record(chart: ChartConfig, file_path: Path, filters: dict, row_count: Optional[int]) -> dict:
+def build_export_record(
+    chart: ChartConfig,
+    file_path: Path,
+    csv_path: Path,
+    filters: dict,
+    row_count: Optional[int],
+    export_format: str,
+    export_mode: str,
+) -> dict:
     return {
         "chart_id": chart.chart_id,
         "chart_name": chart.name,
+        "export_format": export_format,
+        "export_mode": export_mode,
         "file_path": str(file_path),
+        "csv_path": str(csv_path),
         "file_size": file_path.stat().st_size,
         "sha256": sha256_file(file_path),
         "filters": filters,

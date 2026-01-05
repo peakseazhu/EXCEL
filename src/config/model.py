@@ -36,6 +36,8 @@ class ChartConfig(BaseModel):
     name: str
     export_format: Optional[Literal["csv", "xlsx"]] = None
     export_mode: Literal["simple", "complex"] = "simple"
+    export_fallbacks: Optional[List[str]] = None
+    sheet_name: Optional[str] = None
     filters: List[dict] = Field(default_factory=list)
     filter_rules: FilterRules = Field(default_factory=FilterRules)
     schema_path: Optional[str] = None

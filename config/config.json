@@ -55,7 +55,12 @@
           "update_month": true,
           "month": null
         },
-        "export_mode": "simple"
+        "export_mode": "simple",
+        "export_fallbacks": [
+          "csv",
+          "xlsx",
+          "complex"
+        ]
       },
       {
         "chart_id": "g3ce42f595648430cbd599a7",
@@ -84,7 +89,12 @@
           "update_month": true,
           "month": null
         },
-        "export_mode": "simple"
+        "export_mode": "simple",
+        "export_fallbacks": [
+          "csv",
+          "xlsx",
+          "complex"
+        ]
       },
       {
         "chart_id": "r29b8748abc9a44e88365b63",
@@ -113,7 +123,12 @@
           "update_month": true,
           "month": null
         },
-        "export_mode": "simple"
+        "export_mode": "simple",
+        "export_fallbacks": [
+          "csv",
+          "xlsx",
+          "complex"
+        ]
       },
       {
         "chart_id": "dd60461b434f9465fb3c6cff",
@@ -142,7 +157,12 @@
           "update_month": true,
           "month": null
         },
-        "export_mode": "simple"
+        "export_mode": "simple",
+        "export_fallbacks": [
+          "csv",
+          "xlsx",
+          "complex"
+        ]
       },
       {
         "chart_id": "k41395f63a5134401908ebb5",
@@ -171,7 +191,12 @@
           "update_month": true,
           "month": null
         },
-        "export_mode": "simple"
+        "export_mode": "simple",
+        "export_fallbacks": [
+          "csv",
+          "xlsx",
+          "complex"
+        ]
       },
       {
         "chart_id": "g11f057bdcf7b464f80371c8",
@@ -200,7 +225,12 @@
           "update_month": true,
           "month": null
         },
-        "export_mode": "simple"
+        "export_mode": "simple",
+        "export_fallbacks": [
+          "csv",
+          "xlsx",
+          "complex"
+        ]
       }
     ]
   },

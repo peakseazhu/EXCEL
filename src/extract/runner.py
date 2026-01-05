@@ -2,13 +2,14 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Dict
+from typing import Dict, List, Tuple
 
 from ..config import get_env_or_fail
 from ..config.model import PipelineConfig, ChartConfig
 from ..core.context import RunContext
 from ..extract.filters import apply_filter_rules
 from ..extract.guanbi import GuanbiClient
+from ..extract.convert import xlsx_to_csv
 from ..storage import ManifestWriter, save_raw_bytes, count_csv_rows, build_export_record
 from ..utils.fs import ensure_dir
 
@@ -19,9 +20,36 @@ class ExtractResult:
     row_counts: Dict[str, int | None]
 
 
-def _extension_for(chart: ChartConfig, default_format: str) -> str:
-    export_format = chart.export_format or default_format
-    return ".csv" if export_format == "csv" else ".xlsx"
+def _normalize_format(value: str) -> str:
+    value = value.lower()
+    if value == "excel":
+        return "xlsx"
+    if value == "table":
+        return "complex"
+    return value
+
+
+def _build_attempts(chart: ChartConfig, default_format: str) -> List[Tuple[str, str]]:
+    if chart.export_fallbacks:
+        raw_attempts = chart.export_fallbacks
+    else:
+        raw_attempts = [chart.export_format or default_format, "xlsx", "complex"]
+    attempts: List[Tuple[str, str]] = []
+    for raw in raw_attempts:
+        if not raw:
+            continue
+        normalized = _normalize_format(raw)
+        if normalized in {"csv", "xlsx"}:
+            attempts.append(("simple", normalized))
+        elif normalized in {"complex"}:
+            attempts.append(("complex", "xlsx"))
+    seen = set()
+    unique: List[Tuple[str, str]] = []
+    for attempt in attempts:
+        if attempt not in seen:
+            unique.append(attempt)
+            seen.add(attempt)
+    return unique
 
 
 def run_extract(config: PipelineConfig, context: RunContext, logger) -> ExtractResult:
@@ -50,24 +78,50 @@ def run_extract(config: PipelineConfig, context: RunContext, logger) -> ExtractR
 
     for chart in config.bi.charts:
         filters = apply_filter_rules(chart.filters, chart.filter_rules, context.run_date)
-        task_id, file_name = client.create_task(chart, token, filters)
-        logger.info("Created task %s for chart %s", task_id, chart.chart_id)
+        attempts = _build_attempts(chart, config.project.export_format)
+        if not attempts:
+            raise ValueError(f"No export attempts configured for chart {chart.chart_id}")
 
-        finished_time = client.poll_task(task_id, token)
-        logger.info("Task %s finished", task_id)
+        last_error: Exception | None = None
+        for mode, export_format in attempts:
+            try:
+                task_id, file_name = client.create_task(chart.chart_id, token, filters, mode, export_format)
+                logger.info("Created task %s for chart %s (%s/%s)", task_id, chart.chart_id, mode, export_format)
 
-        content = client.download(chart, token, file_name, finished_time)
-        extension = _extension_for(chart, config.project.export_format)
-        file_path = save_raw_bytes(context, chart, content, extension)
+                finished_time = client.poll_task(task_id, token)
+                logger.info("Task %s finished", task_id)
 
-        row_count = None
-        if extension == ".csv":
-            row_count = count_csv_rows(file_path)
-        record = build_export_record(chart, file_path, filters, row_count)
-        manifest.add_export(record)
+                content = client.download(token, file_name, finished_time, mode, export_format)
+                extension = ".csv" if export_format == "csv" and mode == "simple" else ".xlsx"
+                file_path = save_raw_bytes(context, chart, content, extension)
 
-        files[chart.chart_id] = file_path
-        row_counts[chart.chart_id] = row_count
-        logger.info("Saved export for %s to %s", chart.chart_id, file_path)
+                if extension == ".csv":
+                    csv_path = file_path
+                else:
+                    csv_path = file_path.with_suffix(".csv")
+                    xlsx_to_csv(file_path, csv_path, chart.sheet_name)
+
+                row_count = count_csv_rows(csv_path)
+                record = build_export_record(chart, file_path, csv_path, filters, row_count, export_format, mode)
+                manifest.add_export(record)
+
+                files[chart.chart_id] = csv_path
+                row_counts[chart.chart_id] = row_count
+                logger.info("Saved export for %s to %s (csv %s)", chart.chart_id, file_path, csv_path)
+                last_error = None
+                break
+            except Exception as exc:
+                last_error = exc
+                logger.warning(
+                    "Export attempt failed for %s (%s/%s): %s",
+                    chart.chart_id,
+                    mode,
+                    export_format,
+                    exc,
+                )
+                continue
+
+        if last_error is not None:
+            raise last_error
 
     return ExtractResult(files=files, row_counts=row_counts)

@@ -10,3 +10,4 @@ dependencies:
       - pydantic
       - PyYAML
       - duckdb
+      - openpyxl

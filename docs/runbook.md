@@ -9,6 +9,7 @@
 ## Config
 
 - `config/config.json` controls charts, outputs, and targets.
+- Each chart can set `export_fallbacks` (e.g. `["csv","xlsx","complex"]`) to handle unsupported formats.
 - Replace `config/targets/targets_a.csv` and `targets_b.csv` weekly (full refresh).
 
 ## Commands

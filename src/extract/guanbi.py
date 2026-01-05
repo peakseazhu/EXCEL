@@ -4,7 +4,7 @@ import time
 from dataclasses import dataclass
 from typing import Dict, Tuple
 
-from ..config.model import BIConfig, ChartConfig
+from ..config.model import BIConfig
 from ..utils.retry import create_retry_session
 
 
@@ -59,15 +59,14 @@ class GuanbiClient:
             "token": token,
         }
 
-    def create_task(self, chart: ChartConfig, token: str, filters: Dict) -> Tuple[str, str]:
-        export_format = chart.export_format or "csv"
-        if chart.export_mode == "complex":
-            url = f"{self.base_url}/api/complex-report/{chart.chart_id}/generate"
+    def create_task(self, chart_id: str, token: str, filters: Dict, mode: str, export_format: str) -> Tuple[str, str]:
+        if mode == "complex":
+            url = f"{self.base_url}/api/complex-report/{chart_id}/generate"
         else:
             type_op = TYPE_OP.get(export_format)
             if not type_op:
                 raise ValueError(f"Unsupported export format: {export_format}")
-            url = f"{self.base_url}/api/write/file/{chart.chart_id}?typeOp={type_op}"
+            url = f"{self.base_url}/api/write/file/{chart_id}?typeOp={type_op}"
         response = self.session.post(url, json=filters, headers=self._headers(token), timeout=self.timeout_seconds)
         response.raise_for_status()
         data = response.json()
@@ -96,9 +95,8 @@ class GuanbiClient:
                 raise TimeoutError(f"Task {task_id} exceeded max wait {self.max_wait_seconds}s")
             time.sleep(self.poll_interval_seconds)
 
-    def download(self, chart: ChartConfig, token: str, task_filename: str, finished_time: str) -> bytes:
-        export_format = chart.export_format or "csv"
-        if chart.export_mode == "complex":
+    def download(self, token: str, task_filename: str, finished_time: str, mode: str, export_format: str) -> bytes:
+        if mode == "complex":
             path = "/api/export/file/complexReport/{task_filename}"
         else:
             path = DOWNLOAD_PATH.get(export_format)
