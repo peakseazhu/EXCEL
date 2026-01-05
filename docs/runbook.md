@@ -9,7 +9,8 @@
 ## Config
 
 - `config/config.json` controls charts, outputs, and targets.
-- Each chart can set `export_fallbacks` (e.g. `["csv","xlsx","complex"]`) to handle unsupported formats.
+- Each chart can set `export_fallbacks` (e.g. `["csv","xlsx","pivot","complex"]`) to handle unsupported formats.
+- `pivot` uses `typeOp=PIVOT` (table export) while `complex` uses `/api/complex-report/.../generate`.
 - Replace `config/targets/targets_a.csv` and `targets_b.csv` weekly (full refresh).
 
 ## Commands

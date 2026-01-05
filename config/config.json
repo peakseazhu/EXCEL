@@ -59,6 +59,7 @@
         "export_fallbacks": [
           "csv",
           "xlsx",
+          "pivot",
           "complex"
         ]
       },
@@ -93,6 +94,7 @@
         "export_fallbacks": [
           "csv",
           "xlsx",
+          "pivot",
           "complex"
         ]
       },
@@ -127,6 +129,7 @@
         "export_fallbacks": [
           "csv",
           "xlsx",
+          "pivot",
           "complex"
         ]
       },
@@ -161,6 +164,7 @@
         "export_fallbacks": [
           "csv",
           "xlsx",
+          "pivot",
           "complex"
         ]
       },
@@ -195,6 +199,7 @@
         "export_fallbacks": [
           "csv",
           "xlsx",
+          "pivot",
           "complex"
         ]
       },
@@ -229,6 +234,7 @@
         "export_fallbacks": [
           "csv",
           "xlsx",
+          "pivot",
           "complex"
         ]
       }

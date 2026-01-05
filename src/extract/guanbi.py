@@ -11,11 +11,13 @@ from ..utils.retry import create_retry_session
 TYPE_OP = {
     "csv": "CSV",
     "xlsx": "EXCEL",
+    "pivot": "PIVOT",
 }
 
 DOWNLOAD_PATH = {
     "csv": "/api/export/file/csv/{task_filename}",
     "xlsx": "/api/export/file/excel/{task_filename}",
+    "pivot": "/api/export/file/excel/{task_filename}",
 }
 
 

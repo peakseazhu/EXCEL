@@ -4,17 +4,46 @@ from typing import List, Optional, Literal
 from pydantic import BaseModel, Field, field_validator, model_validator
 
 
+EXPORT_FORMATS = {"csv", "xlsx", "pivot"}
+EXPORT_FALLBACKS = EXPORT_FORMATS | {"complex"}
+
+
+def normalize_export_value(value: str) -> str:
+    if not isinstance(value, str):
+        raise ValueError("export format must be a string")
+    normalized = value.strip().lower()
+    if normalized == "excel":
+        return "xlsx"
+    if normalized in {"table", "pivot"}:
+        return "pivot"
+    return normalized
+
+
 class ProjectConfig(BaseModel):
     name: str = "bi-pipeline"
     timezone: str = "Asia/Shanghai"
     data_dir: str = "data"
     log_dir: str = "logs"
-    export_format: Literal["csv", "xlsx"] = "csv"
+    export_format: Literal["csv", "xlsx", "pivot"] = "csv"
     request_timeout_seconds: int = 30
     request_max_retries: int = 5
     task_poll_interval_seconds: int = 5
     task_max_wait_seconds: int = 1800
     profile_sample_rows: int = 100000
+
+    @field_validator("export_format", mode="before")
+    @classmethod
+    def normalize_project_export_format(cls, value: Optional[str]) -> Optional[str]:
+        if value is None:
+            return value
+        return normalize_export_value(value)
+
+    @field_validator("export_format")
+    @classmethod
+    def validate_project_export_format(cls, value: str) -> str:
+        if value not in EXPORT_FORMATS:
+            raise ValueError(f"export_format must be one of {sorted(EXPORT_FORMATS)}")
+        return value
 
 
 class CompareConfig(BaseModel):
@@ -34,13 +63,47 @@ class FilterRules(BaseModel):
 class ChartConfig(BaseModel):
     chart_id: str
     name: str
-    export_format: Optional[Literal["csv", "xlsx"]] = None
+    export_format: Optional[Literal["csv", "xlsx", "pivot"]] = None
     export_mode: Literal["simple", "complex"] = "simple"
     export_fallbacks: Optional[List[str]] = None
     sheet_name: Optional[str] = None
     filters: List[dict] = Field(default_factory=list)
     filter_rules: FilterRules = Field(default_factory=FilterRules)
     schema_path: Optional[str] = None
+
+    @field_validator("export_format", mode="before")
+    @classmethod
+    def normalize_chart_export_format(cls, value: Optional[str]) -> Optional[str]:
+        if value is None:
+            return value
+        return normalize_export_value(value)
+
+    @field_validator("export_format")
+    @classmethod
+    def validate_chart_export_format(cls, value: Optional[str]) -> Optional[str]:
+        if value is None:
+            return value
+        if value not in EXPORT_FORMATS:
+            raise ValueError(f"export_format must be one of {sorted(EXPORT_FORMATS)}")
+        return value
+
+    @field_validator("export_fallbacks", mode="before")
+    @classmethod
+    def normalize_export_fallbacks(cls, value: Optional[List[str]]) -> Optional[List[str]]:
+        if value is None:
+            return value
+        raw = [value] if isinstance(value, str) else list(value)
+        return [normalize_export_value(item) for item in raw]
+
+    @field_validator("export_fallbacks")
+    @classmethod
+    def validate_export_fallbacks(cls, value: Optional[List[str]]) -> Optional[List[str]]:
+        if value is None:
+            return value
+        invalid = [item for item in value if item not in EXPORT_FALLBACKS]
+        if invalid:
+            raise ValueError(f"export_fallbacks contains unsupported values: {invalid}")
+        return value
 
 
 class BIConfig(BaseModel):
@@ -119,6 +182,6 @@ class PipelineConfig(BaseModel):
     @model_validator(mode="after")
     def validate_exports(self) -> "PipelineConfig":
         for chart in self.bi.charts:
-            if chart.export_format and chart.export_format not in {"csv", "xlsx"}:
-                raise ValueError("export_format must be csv or xlsx")
+            if chart.export_format and chart.export_format not in EXPORT_FORMATS:
+                raise ValueError(f"export_format must be one of {sorted(EXPORT_FORMATS)}")
         return self

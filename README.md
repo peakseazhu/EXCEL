@@ -38,4 +38,4 @@ python -m src --config config/config.json backfill --start 2025-01-01 --end 2025
 
 - Replace `config/targets/targets_a.csv` and `targets_b.csv` weekly with full data.
 - Configure BI and Feishu credentials via environment variables.
-- For charts that only support table export, set `export_fallbacks` to include `"complex"` in `config/config.json`.
+- Use `export_fallbacks` to control export attempts: `"pivot"` maps to `typeOp=PIVOT` (table export), `"complex"` uses `/api/complex-report/.../generate`.

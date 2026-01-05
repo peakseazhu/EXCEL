@@ -24,8 +24,8 @@ def _normalize_format(value: str) -> str:
     value = value.lower()
     if value == "excel":
         return "xlsx"
-    if value == "table":
-        return "complex"
+    if value in {"table", "pivot"}:
+        return "pivot"
     return value
 
 
@@ -33,13 +33,15 @@ def _build_attempts(chart: ChartConfig, default_format: str) -> List[Tuple[str, 
     if chart.export_fallbacks:
         raw_attempts = chart.export_fallbacks
     else:
-        raw_attempts = [chart.export_format or default_format, "xlsx", "complex"]
+        raw_attempts = [chart.export_format or default_format, "xlsx", "pivot", "complex"]
+        if chart.export_mode == "complex":
+            raw_attempts = ["complex", chart.export_format or default_format, "xlsx", "pivot"]
     attempts: List[Tuple[str, str]] = []
     for raw in raw_attempts:
         if not raw:
             continue
         normalized = _normalize_format(raw)
-        if normalized in {"csv", "xlsx"}:
+        if normalized in {"csv", "xlsx", "pivot"}:
             attempts.append(("simple", normalized))
         elif normalized in {"complex"}:
             attempts.append(("complex", "xlsx"))

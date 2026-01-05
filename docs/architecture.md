@@ -2,7 +2,7 @@
 
 ## Flow
 
-1. Extract CSV from Guanbi BI into `data/raw/run_date=YYYY-MM-DD/...`.
+1. Extract CSV/XLSX/PIVOT from Guanbi BI into `data/raw/run_date=YYYY-MM-DD/...` and normalize to CSV.
 2. Load raw data + weekly target tables into DuckDB.
 3. Transform raw/dim tables into `mart.*` using SQL files in `sql/mart/`.
 4. Publish results to Feishu Sheets.
