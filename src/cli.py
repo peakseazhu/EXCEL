@@ -3,6 +3,8 @@ from __future__ import annotations
 import argparse
 from pathlib import Path
 
+from dotenv import load_dotenv
+
 from .config import load_config
 from .core import RunContext, setup_logging
 from .extract import run_extract
@@ -40,6 +42,7 @@ def main() -> None:
     parser = build_parser()
     args = parser.parse_args()
 
+    load_dotenv()
     config = load_config(Path(args.config))
     if args.command == "validate-config":
         print(f"Config OK: {config.project.name}")

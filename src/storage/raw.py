@@ -17,11 +17,13 @@ def save_raw_bytes(context: RunContext, chart: ChartConfig, content: bytes, exte
 
 
 def count_csv_rows(path: Path) -> int:
-    row_count = 0
+    line_count = 0
     with path.open("r", encoding="utf-8", errors="ignore") as handle:
-        for idx, _ in enumerate(handle):
-            row_count = idx
-    return max(row_count, 0)
+        for _ in handle:
+            line_count += 1
+    if line_count == 0:
+        return 0
+    return max(line_count - 1, 0)
 
 
 def build_export_record(chart: ChartConfig, file_path: Path, filters: dict, row_count: Optional[int]) -> dict:
