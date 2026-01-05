@@ -136,17 +136,23 @@ class Warehouse:
             row_count = con.execute(f"SELECT COUNT(*) FROM {table} WHERE run_date = DATE '{run_date}'").fetchone()[0]
         return row_count
 
-    def load_target_table(self, target: TargetTableConfig) -> int:
+    def load_target_table(
+        self,
+        target: TargetTableConfig,
+        resolved_path: Optional[Path] = None,
+        source_path: Optional[Path] = None,
+    ) -> int:
         if target.source != "file":
             raise ValueError("Only file targets are supported in this phase")
-        if not target.path:
+        if not target.path and resolved_path is None:
             raise ValueError("Target path is required")
 
         schema = load_schema(target.schema_path)
-        path = Path(target.path)
-        if not path.exists():
-            raise FileNotFoundError(f"Target file not found: {path}")
-        path_str = str(path).replace("'", "''")
+        resolved = resolved_path or Path(target.path)
+        if not resolved.exists():
+            raise FileNotFoundError(f"Target file not found: {resolved}")
+        path_str = str(resolved).replace("'", "''")
+        source = source_path or resolved
         table = f"dim.{target.name}"
 
         with self.connect() as con:
@@ -167,7 +173,7 @@ class Warehouse:
             row_count = con.execute(f"SELECT COUNT(*) FROM {table}").fetchone()[0]
             con.execute(
                 "INSERT INTO ops.target_versions VALUES (?, ?, ?, ?, ?)",
-                [target.name, str(path), sha256_file(path), row_count, datetime.utcnow()],
+                [target.name, str(source), sha256_file(source), row_count, datetime.utcnow()],
             )
 
         return row_count

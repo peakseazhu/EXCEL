@@ -36,6 +36,6 @@ python -m src --config config/config.json backfill --start 2025-01-01 --end 2025
 
 ## Notes
 
-- Replace `config/targets/targets_a.csv` and `targets_b.csv` weekly with full data.
+- Replace `config/targets/targets_a.csv` and `targets_b.csv` weekly with full data (CSV or XLSX).
 - Configure BI and Feishu credentials via environment variables.
 - Use `export_fallbacks` to control export attempts: `"pivot"` maps to `typeOp=PIVOT` (table export), `"complex"` uses `/api/complex-report/.../generate`.

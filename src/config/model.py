@@ -128,6 +128,7 @@ class TargetTableConfig(BaseModel):
     path: Optional[str] = None
     schema_path: Optional[str] = None
     feishu_sheet_name: Optional[str] = None
+    sheet_name: Optional[str] = None
 
 
 class TargetsConfig(BaseModel):

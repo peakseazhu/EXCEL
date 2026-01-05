@@ -9,7 +9,7 @@ from ..config.model import PipelineConfig, ChartConfig
 from ..core.context import RunContext
 from ..extract.filters import apply_filter_rules
 from ..extract.guanbi import GuanbiClient
-from ..extract.convert import xlsx_to_csv
+from ..utils.convert import xlsx_to_csv
 from ..storage import ManifestWriter, save_raw_bytes, count_csv_rows, build_export_record
 from ..utils.fs import ensure_dir
 
